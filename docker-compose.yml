@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+  projectDB:
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=kevs1DB
+      - MYSQL_DATABASE=tseDB
+    volumes:
+      - mysqlData:/var/lib/mysql
+    ports:  
+      - 3306:3306
+
+volumes:
+  mysqlData:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
