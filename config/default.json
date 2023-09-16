@@ -5,6 +5,8 @@
         "database":{
             "host": "localhost",
             "port": 3306,
-            "name": "tsedbs"
+            "database": "tseDB",
+            "user": "root",
+            "password": "kevs1DB"
         }
     }
