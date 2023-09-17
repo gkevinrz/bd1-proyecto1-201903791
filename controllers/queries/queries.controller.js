@@ -7,10 +7,13 @@ export const query1=async (req,res)=>{
         const connection=await mysql.createConnection(config.get('database'));
         
         const query1=await connection.query(`
+
         SELECT can.nombre AS Presidente,can2.nombre AS Vicepresidente, partidos.nombre_partido AS Partido 
         FROM candidatos can 
         INNER JOIN partidos ON partidos.id_partido=can.id_partido AND can.id_cargo=1 
-        INNER JOIN candidatos can2 ON can2.id_cargo=2 AND can2.id_partido=partidos.id_partido;`);
+        INNER JOIN candidatos can2 ON can2.id_cargo=2 AND can2.id_partido=partidos.id_partido;
+        
+        `);
         console.log(query1[0]);
 
 
@@ -32,7 +35,11 @@ export const query2=async (req,res)=>{
         const connection=await mysql.createConnection(config.get('database'));
         
         const query2=await connection.query(`
-        SELECT COUNT(can.id_candidato) AS 'Cantidad de diputados', partidos.nombre_partido AS Partido FROM candidatos can INNER JOIN partidos ON partidos.id_partido=can.id_partido AND (can.id_cargo=3 OR can.id_cargo=4 OR can.id_cargo=5) GROUP BY Partido; 
+        SELECT COUNT(can.id_candidato) AS 'Cantidad de diputados', partidos.nombre_partido AS Partido 
+        FROM candidatos can 
+        INNER JOIN partidos ON partidos.id_partido=can.id_partido AND (can.id_cargo=3 OR can.id_cargo=4 OR can.id_cargo=5) 
+        GROUP BY Partido
+        ORDER BY COUNT(can.id_candidato) DESC ; 
         `);
 
 
@@ -51,8 +58,10 @@ export const query3=async (req,res)=>{
         const connection=await mysql.createConnection(config.get('database'));
         
         const query3=await connection.query(`
+
         SELECT can.nombre AS Alcalde, partidos.nombre_partido AS Partido 
         FROM candidatos can INNER JOIN partidos ON partidos.id_partido=can.id_partido AND can.id_cargo=6 
+        
         `);
 
 
@@ -71,7 +80,11 @@ export const query4=async (req,res)=>{
         const connection=await mysql.createConnection(config.get('database'));
         
         const query4=await connection.query(`
-        SELECT COUNT(can.id_candidato) AS 'Cantidad de candidatos', partidos.nombre_partido AS Partido FROM candidatos can INNER JOIN partidos ON partidos.id_partido=can.id_partido AND (can.id_cargo=3 OR can.id_cargo=4 OR can.id_cargo=5 OR can.id_cargo=6 OR can.id_cargo=1 OR can.id_cargo=2) GROUP BY Partido; 
+        SELECT COUNT(can.id_candidato) AS 'Cantidad de candidatos', partidos.nombre_partido AS Partido 
+        FROM candidatos can 
+        INNER JOIN partidos ON partidos.id_partido=can.id_partido AND (can.id_cargo=3 OR can.id_cargo=4 OR can.id_cargo=5 OR can.id_cargo=6 OR can.id_cargo=1 OR can.id_cargo=2) 
+        GROUP BY Partido
+        ORDER BY COUNT(can.id_candidato) DESC ; 
 
         `);
 
@@ -89,7 +102,12 @@ export const query5=async (req,res)=>{
         const connection=await mysql.createConnection(config.get('database'));
         
         const query5=await connection.query(`
-        SELECT COUNT(votos.id_voto) AS 'Cantidad de votos', departamentos.nombre AS 'Departamento' FROM votos  INNER JOIN mesas ON votos.id_mesa=mesas.id_mesa INNER JOIN departamentos ON mesas.id_departamento=departamentos.id_departamento GROUP BY Departamento; 
+        SELECT COUNT(votos.id_voto) AS 'Cantidad de votos', departamentos.nombre AS 'Departamento'
+        FROM votos  
+        INNER JOIN mesas ON votos.id_mesa=mesas.id_mesa
+        INNER JOIN departamentos ON mesas.id_departamento=departamentos.id_departamento
+         GROUP BY Departamento
+         ORDER BY COUNT(votos.id_voto) DESC ; 
 
         `);
 
@@ -108,7 +126,9 @@ export const query6=async (req,res)=>{
         const connection=await mysql.createConnection(config.get('database'));
         
         const query6=await connection.query(`
-        SELECT COUNT(DISTINCT votos.id_voto) AS 'Cantidad de votos nulos' FROM votos INNER JOIN voto_detalles ON votos.id_voto=voto_detalles.id_voto and voto_detalles.id_candidato=-1;
+        SELECT COUNT(DISTINCT votos.id_voto) AS 'Cantidad de votos nulos'
+        FROM votos 
+        INNER JOIN voto_detalles ON votos.id_voto=voto_detalles.id_voto and voto_detalles.id_candidato=-1;
         `);
 
 
@@ -127,7 +147,11 @@ export const query7=async (req,res)=>{
         
         const query7=await connection.query(`
             
-        SELECT COUNT(votos.id_voto) AS 'Cantidad de votos' , ciudadanos.edad AS 'Edad de ciudadano' FROM votos INNER JOIN ciudadanos ON votos.dpi=ciudadanos.dpi GROUP BY ciudadanos.edad ORDER BY COUNT(votos.id_voto) DESC LIMIT 10;
+        SELECT COUNT(votos.id_voto) AS 'Cantidad de votos' , ciudadanos.edad AS 'Edad de ciudadano'
+        FROM votos 
+        INNER JOIN ciudadanos ON votos.dpi=ciudadanos.dpi 
+        GROUP BY ciudadanos.edad
+        ORDER BY COUNT(votos.id_voto) DESC LIMIT 10;
 
         `);
 
