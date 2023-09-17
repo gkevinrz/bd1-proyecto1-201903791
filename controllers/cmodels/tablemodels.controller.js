@@ -194,7 +194,7 @@ export const eliminarModelo= async (req,res)=>{
         for (let i = 0; i < queries.length; i++) {
             await  connection.query(queries[i]);
          }   
-         await connection.end();
+        await connection.end();
 
         res.status(200).json({
             body: { title: 'Modelo', message: 'Modelo eliminado correctamente' },
