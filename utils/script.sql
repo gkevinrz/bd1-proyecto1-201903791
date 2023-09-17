@@ -1,11 +1,13 @@
 USE tseDB;
+SET NAMES utf9mb4;
 ------------- Creating model------------------------------------
 
   --departamentos
 CREATE TABLE IF NOT EXISTS departamentos(
     id_departamento INTEGER NOT NULL,
-    nombre VARCHAR(50) NOT NULL
-);
+    nombre VARCHAR(50) NOT NULL)
+    DEFAULT CHARACTER SET=utf8mb4;
+
 
 ALTER TABLE departamentos
 ADD CONSTRAINT PK_departamentos PRIMARY KEY(id_departamento);
